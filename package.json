@@ -15,5 +15,10 @@
   "bugs": {
     "url": "https://github.com/GA-Kelompok6/WorkerAttendanceApp-backend/issues"
   },
-  "homepage": "https://github.com/GA-Kelompok6/WorkerAttendanceApp-backend#readme"
+  "homepage": "https://github.com/GA-Kelompok6/WorkerAttendanceApp-backend#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "mongodb": "^4.1.1",
+    "mongoose": "^6.0.5"
+  }
 }
