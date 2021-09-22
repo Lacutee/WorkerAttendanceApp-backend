@@ -17,17 +17,22 @@ const port = process.env.PORT || 5000;
 app.use(cors());//cors middleware//parse json 
 app.use(expres.json());
 
-const uri = process.env.ATLAS_URI;//database uri
-mongoose.connect(uri, {
+const admin_uri = process.env.ADMIN_URI;//database uri
+// const user_uri = process.env.USER_URI;//database uri
+
+mongoose.connect(admin_uri, {
     useNewUrlParser: true, //new connection behind the flag
     useCreateIndex: true //deprecating the ensure index
 });//connect to database
 
-const connection = mongoose.connection; 
-console.log(connection)
-connection.once('open', () =>{
+const admin_connection = admin_mongoose.connection; 
+admin_connection.once('open', () =>{
     console.log("Mongodb database terkoneksi ");
 });
+
+const usersRouter = require('./routes/userAuthRouter');
+
+app.use('/users', usersRouter);
 
 app.listen(port, () =>{
     console.log(`Server is running on port: ${port}`)
