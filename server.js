@@ -25,7 +25,7 @@ mongoose.connect(admin_uri, {
     useCreateIndex: true //deprecating the ensure index
 });//connect to database
 
-const admin_connection = admin_mongoose.connection; 
+const admin_connection = mongoose.connection; 
 admin_connection.once('open', () =>{
     console.log("Mongodb database terkoneksi ");
 });
