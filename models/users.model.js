@@ -15,6 +15,12 @@ const userSchema = new Schema({
         unique: true,
         trim: true,
         minlength: 3
+    },
+    role:{
+        type: String,
+        required: true,
+        unique: true,
+        trim: true,
     }
 },{
     timestamps:true
