@@ -4,7 +4,8 @@ const cors = require('cors');
 
 //connect to mongodb database
 const mongoose = require('mongoose');
-
+const { User } = require('./models/users.model')
+const { authUser, authRole } = require('./role/AuthGateway')
 
 
 //konfigure env variebel di .ENV file 
@@ -16,20 +17,35 @@ const port = process.env.PORT || 5000;
 
 app.use(cors());//cors middleware//parse json 
 app.use(expres.json());
+app.use(setUser)
 
-const admin_uri = process.env.ADMIN_URI;//database uri
-// const user_uri = process.env.USER_URI;//database uri
+const uri = process.env.ATLAS_URI;//database uri
 
-mongoose.connect(admin_uri, {
+mongoose.connect(uri, {
     useNewUrlParser: true, //new connection behind the flag
     useCreateIndex: true //deprecating the ensure index
 });//connect to database
 
-const admin_connection = mongoose.connection; 
-admin_connection.once('open', () =>{
+const connection = mongoose.connection; 
+connection.once('open', () =>{
     console.log("Mongodb database terkoneksi ");
 });
 
+app.get('/dashboard', authUser, (req, res) => {
+    res.send('Dashboard Page')
+  })
+  
+app.get('/admin', authUser, authRole('admin'), (req, res) => {
+    res.send('Admin Page')
+})
+
+function setUser(req, res, next) {
+    const username = req.body.username
+    if (username) {
+      req.user = User.find(user => user.username === username)
+    }
+    next()
+  }
 const usersRouter = require('./routes/userAuthRouter');
 
 app.use('/users', usersRouter);
