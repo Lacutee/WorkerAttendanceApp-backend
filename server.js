@@ -4,7 +4,7 @@ const cors = require('cors');
 
 //connect to mongodb database
 const mongoose = require('mongoose');
-const { User } = require('./models/users.model')
+let User = require('./models/users.model');
 const { authUser, authRole } = require('./role/AuthGateway')
 
 
@@ -17,9 +17,9 @@ const port = process.env.PORT || 5000;
 
 app.use(cors());//cors middleware//parse json 
 app.use(expres.json());
-app.use(setUser)
+//app.use(setUser);
 
-const uri = process.env.ATLAS_URI;//database uri
+const uri = process.env.ADMIN_URI;//database uri
 
 mongoose.connect(uri, {
     useNewUrlParser: true, //new connection behind the flag
@@ -39,16 +39,19 @@ app.get('/admin', authUser, authRole('admin'), (req, res) => {
     res.send('Admin Page')
 })
 
-function setUser(req, res, next) {
+/*function setUser(req, res, next) {
     const username = req.body.username
     if (username) {
-      req.user = User.find(user => user.username === username)
+      req.user = User.fi(user => user.username === username)
     }
     next()
-  }
+  }*/
 const usersRouter = require('./routes/userAuthRouter');
+const usersModuleRouter = require('./routes/users');
 
 app.use('/users', usersRouter);
+
+app.use('/users-module', usersModuleRouter);
 
 app.listen(port, () =>{
     console.log(`Server is running on port: ${port}`)
