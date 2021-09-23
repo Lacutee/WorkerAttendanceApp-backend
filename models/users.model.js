@@ -15,11 +15,12 @@ const userSchema = new Schema({
         minlength: 3
     },
     email : {
-        type : String,
-        required: true,
-        unique: true,
+        type: String,
         trim: true,
-        minlength: 3
+        lowercase: true,
+        unique: true,
+        required: true,
+        match: [/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/, 'Please fill a valid email address']
     },
     password:{
         type: String,
@@ -31,7 +32,7 @@ const userSchema = new Schema({
     role:{
         type: String,
         required: true,
-        //unique: true,
+        unique: true,
         trim: true,
     }
 },{
