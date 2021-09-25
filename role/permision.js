@@ -27,15 +27,18 @@ async function authenticate({ username, password }) {
 }
 
 async function getAll() {
-    return Users.map(u => {
-        const { password, ...userWithoutPassword } = u;
-        return userWithoutPassword;
-    });
+    return Users.find()
+              .then(users =>{
+                const { password, ...userWithoutPassword } = users;
+                return userWithoutPassword;
+              })
+    
 }
 
 async function getById(id) {
-    const user = Users.find(u => u.id === parseInt(id));
-    if (!user) return;
-    const { password, ...userWithoutPassword } = user;
-    return userWithoutPassword;
+      return Users.findById(id).
+                then(users =>{
+                  const { password, ...userWithoutPassword } = users;
+                  return userWithoutPassword;
+                })
 }
