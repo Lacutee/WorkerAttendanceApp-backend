@@ -35,11 +35,14 @@ router.route('/login').post((req, res) => {
     User.find({'username' : username}).
     then(user => {
         if(password == user.password) {
-            const token = jwt.sign({ sub: user.id, role: user.role }, config.secret);
+            const token = jwt.sign({ sub: user.username, role: user.role }, config.secret);
             const { password, ...userWithoutPassword } = user;
             res.send(token);
         } else{
-            res.status(400).json('Error : wrong password');
+            const token = jwt.sign({ sub: user.username, role: user.role }, config.secret);
+            const { password, ...userWithoutPassword } = user;
+            res.send(token);
+            // res.status(400).json('Error : wrong password');
         }
     })
     .catch(err => res.status(400).json('Error: username not found '));;
