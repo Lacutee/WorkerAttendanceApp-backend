@@ -1,58 +1,23 @@
-//module yang digunakan
-const expres = require('express');
+require('rootpath')();
+const express = require('express');
+const app = express();
 const cors = require('cors');
+const bodyParser = require('body-parser');
+const errorHandler = require('./helper-func/error-handler');
 
-//connect to mongodb database
-const mongoose = require('mongoose');
-let User = require('./models/users.model');
-const { authUser, authRole } = require('./role/AuthGateway')
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+app.use(cors());
 
+// api routes
+app.use('/users', require('./routes/userAuthRouter'));
+app.use('/home', require('./routes/users'));
 
-//konfigure env variebel di .ENV file 
-require('dotenv').config();
+// global error handler
+app.use(errorHandler);
 
-//mebuat express server di 5000
-const app = expres();
-const port = process.env.PORT || 5000;
-
-app.use(cors());//cors middleware//parse json 
-app.use(expres.json());
-//app.use(setUser);
-
-const uri = process.env.ADMIN_URI;//database uri
-
-mongoose.connect(uri, {
-    useNewUrlParser: true, //new connection behind the flag
-    useCreateIndex: true //deprecating the ensure index
-});//connect to database
-
-const connection = mongoose.connection; 
-connection.once('open', () =>{
-    console.log("Mongodb database terkoneksi ");
+// start server
+const port = process.env.NODE_ENV === 'production' ? 80 : 4000;
+const server = app.listen(port, function () {
+    console.log('Server listening on port ' + port);
 });
-
-app.get('/dashboard', authUser, (req, res) => {
-    res.send('Dashboard Page')
-  })
-  
-app.get('/admin', authUser, authRole('admin'), (req, res) => {
-    res.send('Admin Page')
-})
-
-/*function setUser(req, res, next) {
-    const username = req.body.username
-    if (username) {
-      req.user = User.fi(user => user.username === username)
-    }
-    next()
-  }*/
-const usersRouter = require('./routes/userAuthRouter');
-const usersModuleRouter = require('./routes/users');
-
-app.use('/users', usersRouter);
-
-app.use('/users-module', usersModuleRouter);
-
-app.listen(port, () =>{
-    console.log(`Server is running on port: ${port}`)
-})//memulai server di port 5000

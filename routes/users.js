@@ -1,6 +1,10 @@
 const router = require('express').Router();
 var crypto = require('crypto');
 let User = require('../models/users.model');
+const config = require('../config.json');
+const jwt = require('jsonwebtoken');
+
+
 
 router.route('/register').post((req, res) => {
     const username = req.body.username;
@@ -28,10 +32,12 @@ router.route('/login').post((req, res) => {
     var password = req.body.password;
     password = crypto.createHash('sha256').update(password).digest('base64');
 
-    User.findOne({'username' : username}).
+    User.find({'username' : username}).
     then(user => {
         if(password == user.password) {
-            res.json('Success login!');
+            const token = jwt.sign({ sub: user.id, role: user.role }, config.secret);
+            const { password, ...userWithoutPassword } = user;
+            res.json(token);
         } else{
             res.status(400).json('Error : wrong password');
         }

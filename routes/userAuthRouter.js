@@ -1,31 +1,38 @@
-const router = require('express').Router();
-let User = require('../models/users.model');
-const {authUser, authRole} = require('../role/AuthGateway')
+const express = require('express');
+const router = express.Router();
+const userService = require('../role/permision');
+const authorize = require('../role/AuthGateway')
+const Role = require('../role/role');
 
-router.route('/').get( authRole('admin'), (req, res) => {
-  User.find()
-    .then(users => res.json(users))
-    .catch(err => res.status(400).json('Error: ' + err));
-});
 
-router.route('/:id').get((req, res) => {
-  User.findById(req.params.id)
-    .then(user => res.json(user))
-    .catch(err => res.status(400).json('Error: ' + err));
-});
-
-router.route('/add').post((req, res) => {
-  const username = req.body.username;
-  const password = req.body.password;
-  const role = req.body.role;
-  const newUser = new User({
-                            username,
-                            password,
-                            role});
-
-  newUser.save()
-    .then(() => res.json('User added!'))
-    .catch(err => res.status(400).json('Error: ' + err));
-});
-
+// routes
+router.post('/authenticate', authenticate);     // public route
+router.get('/', authorize(Role.Admin), getAll); // admin only
+router.get('/:id', authorize(), getById);       // all authenticated users
 module.exports = router;
+
+function authenticate(req, res, next) {
+    userService.authenticate(req.body)
+        .then(user => user ? res.json(user) : res.status(400).json({ message: 'Username or password is incorrect' }))
+        .catch(err => next(err));
+}
+
+function getAll(req, res, next) {
+    userService.getAll()
+        .then(users => res.json(users))
+        .catch(err => next(err));
+}
+
+function getById(req, res, next) {
+    const currentUser = req.user;
+    const id = parseInt(req.params.id);
+
+    // only allow admins to access other user records
+    if (id !== currentUser.sub && currentUser.role !== Role.Admin) {
+        return res.status(401).json({ message: 'Unauthorized' });
+    }
+
+    userService.getById(req.params.id)
+        .then(user => user ? res.json(user) : res.sendStatus(404))
+        .catch(err => next(err));
+}
