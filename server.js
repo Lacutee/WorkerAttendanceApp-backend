@@ -5,6 +5,26 @@ const cors = require('cors');
 const bodyParser = require('body-parser');
 const errorHandler = require('./helper-func/error-handler');
 
+
+const mongoose = require('mongoose');
+const { User } = require('./models/users.model')
+
+require('dotenv').config();
+
+const uri = process.env.ATLAS_URI;//database uri
+mongoose.connect(uri, {
+  useNewUrlParser: true, //new connection behind the flag
+  useCreateIndex: true //deprecating the ensure index
+});//connect to database
+
+const connection = mongoose.connection; 
+connection.once('open', () =>{
+  console.log("Mongodb database terkoneksi ");
+});
+
+
+
+
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(cors());
