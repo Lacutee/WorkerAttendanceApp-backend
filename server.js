@@ -11,7 +11,8 @@ const { User } = require('./models/users.model')
 
 require('dotenv').config();
 
-const uri = process.env.ATLAS_URI;//database uri
+const uri = process.env.ADMIN_URL;//database uri
+
 mongoose.connect(uri, {
   useNewUrlParser: true, //new connection behind the flag
   useCreateIndex: true //deprecating the ensure index
