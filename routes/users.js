@@ -39,7 +39,7 @@ router.route('/register').post((req, res) => {
         username,
         name,
         email,
-        tmp,
+        password,
         role,
         iv
     });
