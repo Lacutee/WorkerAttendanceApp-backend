@@ -30,19 +30,19 @@ router.route('/register').post((req, res) => {
     const name = req.body.name;
     const email = req.body.email;
     var password = encrypt(req.body.password);
-    var pass = password.encryptedData;
+    password = password.encryptedData;
     const role = req.body.role;
 
     const newUser = new User({
         username,
         name,
         email,
-        pass,
+        password,
         role
     });
 
     newUser.save()
-    .then(() => res.json(pass))
+    .then(() => res.json(password))
     .catch(err => res.status(400).json('Error: ' + err));
 });
 
