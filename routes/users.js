@@ -68,7 +68,7 @@ router.route('/login').post((req, res) => {
         //     // res.send(token);
         //     res.status(400).json('Error : wrong password');
         // }
-        res.send(encrypt(decryptedPass));
+        res.send(decrypt(decryptedPass));
     })
     .catch(err => res.status(400).json('Error: username not found '));;
 });
