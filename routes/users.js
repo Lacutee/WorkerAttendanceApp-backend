@@ -30,7 +30,7 @@ router.route('/register').post((req, res) => {
     const name = req.body.name;
     const email = req.body.email;
     const tmp = encrypt(req.body.password);
-    const password = password.encryptedData;
+    const password = tmp.encryptedData;
     const iv = password.iv;
     const role = req.body.role;
 
