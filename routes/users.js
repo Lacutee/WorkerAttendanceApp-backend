@@ -29,15 +29,17 @@ router.route('/register').post((req, res) => {
     const username = req.body.username;
     const name = req.body.name;
     const email = req.body.email;
-    var password = encrypt(req.body.password);
-    password = password.encryptedData;
+    const tmp = encrypt(req.body.password);
+    const password = password.encryptedData;
+    const iv = password.iv;
     const role = req.body.role;
 
     const newUser = new User({
         username,
         name,
         email,
-        password,
+        tmp,
+        iv,
         role
     });
 
@@ -49,20 +51,23 @@ router.route('/register').post((req, res) => {
 router.route('/login').post((req, res) => {
     const username = req.body.username;
     var password = req.body.password;
-
+    
     User.find({'username' : username}).
     then(user => {
-        if(password == decrypt(user.password)) {
+        var iv = user.iv;
+        var pass = user.password;
+        var decryptedPass = {iv, pass}
+        if(password == decrypt(decryptedPass)) {
             const token = jwt.sign({ sub: user.id, role: user.role }, config.secret);
             const { password, ...userWithoutPassword } = user;
             
-        } else{
+        } else {
             // const token = jwt.sign({ sub: user[0].id, role: user[0].role }, config.secret);
             // const { password, ...userWithoutPassword } = user;
             // res.send(token);
             res.status(400).json('Error : wrong password');
         }
-        res.send(decrypt(user.password));
+        res.send(decrypt(decryptedPass));
     })
     .catch(err => res.status(400).json('Error: username not found '));;
 });

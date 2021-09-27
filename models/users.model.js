@@ -32,6 +32,10 @@ const userSchema = new Schema({
         type: String,
         required: true,
         trim: true,
+    },
+    iv:{
+        tyoe: String,
+        required: true,
     }
 },{
     timestamps:true
