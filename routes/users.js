@@ -13,25 +13,26 @@ function encrypt(text) {
     let encrypted = cipher.update(text);
     encrypted = Buffer.concat([encrypted, cipher.final()]);
     return { iv: iv.toString('hex'), encryptedData: encrypted.toString('hex') };
-   }
+}
    
-   function decrypt(text) {
+function decrypt(text) {
     let iv = Buffer.from(text.iv, 'hex');
     let encryptedText = Buffer.from(text.encryptedData, 'hex');
     let decipher = crypto.createDecipheriv('aes-256-cbc', Buffer.from(key), iv);
     let decrypted = decipher.update(encryptedText);
     decrypted = Buffer.concat([decrypted, decipher.final()]);
     return decrypted.toString();
-   }
+}
 
 
 router.route('/register').post((req, res) => {
+    
     const username = req.body.username;
     const name = req.body.name;
     const email = req.body.email;
     const tmp = encrypt(req.body.password);
     const password = tmp.encryptedData;
-    const iv = password.iv;
+    const iv = tmp.iv;
     const role = req.body.role;
 
     const newUser = new User({
@@ -41,7 +42,6 @@ router.route('/register').post((req, res) => {
         tmp,
         role,
         iv
-        
     });
 
     newUser.save()

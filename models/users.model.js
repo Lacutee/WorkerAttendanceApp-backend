@@ -9,12 +9,12 @@ const userSchema = new Schema({
         trim: true,
         minlength: 3
     },
-    name : {
+    name: {
         type : String,
         required: true,
         minlength: 3
     },
-    email : {
+    email: {
         type: String,
         trim: true,
         lowercase: true,
@@ -31,12 +31,13 @@ const userSchema = new Schema({
     role:{
         type: String,
         required: true,
-        trim: true,
+        trim: true
     },
     iv:{
         type: String,
-        required: true,
+        required: true
     }
+
 },{
     timestamps:true
 });
