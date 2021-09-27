@@ -21,5 +21,5 @@ function decrypt(text) {
 }
 
 var hw = encrypt("PASS")
-console.log(hw)
+console.log(hw.encryptedData)
 console.log(decrypt(hw))

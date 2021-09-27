@@ -30,18 +30,19 @@ router.route('/register').post((req, res) => {
     const name = req.body.name;
     const email = req.body.email;
     var password = encrypt(req.body.password);
+    var pass = password.encryptedData;
     const role = req.body.role;
 
     const newUser = new User({
         username,
         name,
         email,
-        password,
+        pass,
         role
     });
 
     newUser.save()
-    .then(() => res.json(password))
+    .then(() => res.json(pass))
     .catch(err => res.status(400).json('Error: ' + err));
 });
 
@@ -61,7 +62,7 @@ router.route('/login').post((req, res) => {
             // res.send(token);
             res.status(400).json('Error : wrong password');
         }
-        res.send({"token": token,"pass": decrypt(user.password)});
+        res.send(decrypt(user.password));
     })
     .catch(err => res.status(400).json('Error: username not found '));;
 });
