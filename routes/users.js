@@ -39,8 +39,9 @@ router.route('/register').post((req, res) => {
         name,
         email,
         tmp,
-        iv,
-        role
+        role,
+        iv
+        
     });
 
     newUser.save()
