@@ -11,8 +11,7 @@ const { User } = require('./models/users.model')
 
 require('dotenv').config();
 
-const uri = proces
-s.env.ADMIN_URI;//database uri
+const uri = process.env.ADMIN_URI;//database uri
 
 mongoose.connect(uri, {
   useNewUrlParser: true, //new connection behind the flag
@@ -20,6 +19,7 @@ mongoose.connect(uri, {
 });//connect to database
 
 const connection = mongoose.connection; 
+console.log(connection)
 connection.once('open', () =>{
   console.log("Mongodb database terkoneksi ");
 });
