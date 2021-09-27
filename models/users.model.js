@@ -34,7 +34,7 @@ const userSchema = new Schema({
         trim: true,
     },
     iv:{
-        tyoe: String,
+        type: String,
         required: true,
     }
 },{
