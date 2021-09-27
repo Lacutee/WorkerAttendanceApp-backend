@@ -55,8 +55,8 @@ router.route('/login').post((req, res) => {
     
     User.find({'username' : username}).
     then(user => {
-        var iv = user.iv;
-        var pass = user.password;
+        var iv = user[0].iv;
+        var pass = user[0].password;
         var decryptedPass = {iv, pass}
         // if(password == decrypt(decryptedPass)) {
         //     const token = jwt.sign({ sub: user.id, role: user.role }, config.secret);
