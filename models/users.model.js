@@ -33,9 +33,15 @@ const userSchema = new Schema({
         required: true,
         trim: true
     },
-    iv:{
-        type: String,
-        required: true
+    location:{
+        type: Array,
+        require: false,
+        default: [0,0]
+    },
+    attendance:{
+        type: Boolean,
+        require:false,
+        default:false,
     }
 
 },{

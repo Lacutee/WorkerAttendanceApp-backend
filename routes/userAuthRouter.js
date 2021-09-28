@@ -11,11 +11,6 @@ router.get('/', authorize(Role.Admin), getAll); // admin only
 router.get('/:id', authorize(), getById);       // all authenticated users
 module.exports = router;
 
-function authenticate(req, res, next) {
-    userService.authenticate(req.body)
-        .then(user => user ? res.json(user) : res.status(400).json({ message: 'Username or password is incorrect' }))
-        .catch(err => next(err));
-}
 
 function getAll(req, res, next) {
     userService.getAll()
@@ -35,4 +30,8 @@ function getById(req, res, next) {
     userService.getById(req.params.id)
         .then(user => user ? res.json(user) : res.sendStatus(404))
         .catch(err => next(err));
+}
+
+function delAll(req, res, next){
+    
 }
