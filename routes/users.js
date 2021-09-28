@@ -71,7 +71,7 @@ router.route('/login').post((req, res) => {
         // }
         res.send(test);
     })
-    .catch(err => res.status(400).json('Error: username not found '));;
+    .catch(err => res.status(400).json(err));;
 });
 
 module.exports = router;
