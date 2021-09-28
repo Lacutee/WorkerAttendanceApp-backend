@@ -39,10 +39,7 @@ router.route('/login').post((req, res) => {
             const { password, ...userWithoutPassword } = user;
             res.send(token);
         } else{
-            const token = jwt.sign({ sub: user[0].id, role: user[0].role }, config.secret);
-            const { password, ...userWithoutPassword } = user;
-            res.send({after: password, before: user.password});
-            // res.status(400).json('Error : wrong password');
+            res.status(400).json('Error : wrong password');
         }
     })
     .catch(err => res.status(400).json('Error: username not found '));;
