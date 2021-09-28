@@ -58,6 +58,7 @@ router.route('/login').post((req, res) => {
         var iv = user[0].iv;
         var encryptedData = user[0].password;
         var decryptedPass = {iv, encryptedData}
+        var test = decrypt(decryptedPass)
         // if(password == decrypt(decryptedPass)) {
         //     const token = jwt.sign({ sub: user.id, role: user.role }, config.secret);
         //     const { password, ...userWithoutPassword } = user;
@@ -68,7 +69,7 @@ router.route('/login').post((req, res) => {
         //     // res.send(token);
         //     res.status(400).json('Error : wrong password');
         // }
-        res.send(decryptedPass);
+        res.send(test);
     })
     .catch(err => res.status(400).json('Error: username not found '));;
 });
