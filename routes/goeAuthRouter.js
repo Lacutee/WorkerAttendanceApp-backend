@@ -1,22 +1,20 @@
 const express = require('express');
 const router = express.Router();
-const userService = require('../role/user.permision');
+const AttendenceService = require('../role/geo.permision');
 const authorize = require('../role/AuthGateway')
 const Role = require('../role/role');
-const User = require('../models/users.model');
+const Attendence = require('../models/attendence.model');
 const { AutoEncryptionLoggerLevel } = require('mongodb');
 
-
-// routes
 router.get('/', authorize(Role.Admin), getAll); // admin only
 router.get('/:id', authorize(), getById);
 router.delete('/delete/:id', authorize, dellById);
-router.post('/add', authorize(Role.Admin), createNew)       // all authenticated users
+//router.post('/add', authorize(Role.Admin), createNew)       // all authenticated users
 module.exports = router;
 
 
 function getAll(req, res, next) {
-    userService.getAll()
+    AttendenceService.getAll()
         .then(users => res.json(users))
         .catch(err => next(err));
 }
@@ -30,7 +28,7 @@ function getById(req, res, next) {
         return res.status(401).json({ message: 'Unauthorized' });
     }
 
-    userService.getById(req.params.id)
+    AttendenceService.getById(req.params.id)
         .then(user => user ? res.json(user) : res.sendStatus(404))
         .catch(err => next(err));
 }
@@ -42,7 +40,7 @@ function dellById(req, res, next){
         return res.status(401).json({ message: 'Unauthorized' });
     }
 
-    User.findByIdAndDelete(req.params.id).
+    Attendence.findByIdAndDelete(req.params.id).
         then(()=>{res ? res.json(`User ${req.params.id} has been deleted`) : res.status(400)}).
         catch(err=>{next(err)})
 }
@@ -54,7 +52,7 @@ function createNew(res, req, next){
     const role = res.body.role;
     const email = res.body.email;
 
-    const NewUser = new User({
+    const NewUser = new Attendence({
         username,
         name,
         email,

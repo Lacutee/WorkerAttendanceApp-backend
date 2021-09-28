@@ -33,16 +33,7 @@ const userSchema = new Schema({
         required: true,
         trim: true
     },
-    location:{
-        type: Array,
-        require: false,
-        default: [0,0]
-    },
-    attendance:{
-        type: Boolean,
-        require:false,
-        default:false,
-    }
+
 
 },{
     timestamps:true
