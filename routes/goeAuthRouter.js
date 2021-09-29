@@ -46,11 +46,10 @@ function dellById(req, res, next){
 }
 
 function createNew(res, req, next){
-    const username = res.body.username;
-    const password = res.body.password;
-    const name = res.body.name;
-    const role = res.body.role;
-    const email = res.body.email;
+    const location = req.body.location;
+    const distance = req.body.distance;
+    const attendence = req.body.attendence;
+    const userId = req.user;
 
     const NewUser = new Attendence({
         username,

@@ -14,8 +14,13 @@ const userSchema = new Schema({
         required:false,
         default:false,
     },
+    distance:{
+        type:Number,
+        required:false,
+        default: 0,
+    },
     userId:{
-        type: Int32,
+        type: String,
         required:true,
     }
 
