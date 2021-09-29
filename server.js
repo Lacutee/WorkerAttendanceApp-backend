@@ -23,9 +23,6 @@ connection.once('open', () =>{
   console.log("Mongodb database terkoneksi ");
 });
 
-
-
-
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(cors());
@@ -43,3 +40,4 @@ const port = process.env.PORT || 3000;
 const server = app.listen(port, function () {
     console.log('Server listening on port ' + port);
 });
+

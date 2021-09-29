@@ -19,7 +19,6 @@ function getAll(req, res, next) {
     userService.getAll()
         .then(users => res.json(users))
         .catch(err => next(err));
-    res.send(req.user);
 }
 
 function getById(req, res, next) {
