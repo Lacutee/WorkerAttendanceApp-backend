@@ -33,6 +33,7 @@ app.use(cors());
 
 // api routes
 app.use('/users', require('./routes/userAuthRouter'));
+app.user('/attandence', require('./routes/goeAuthRouter'))
 app.use('/home', require('./routes/users'));
 
 // global error handler
