@@ -9,7 +9,7 @@ const { AutoEncryptionLoggerLevel } = require('mongodb');
 router.get('/', authorize(Role.Admin), getAll); // admin only
 router.get('/:id', authorize(), getById);
 router.delete('/delete/:id', authorize, dellById);
-//router.post('/add', authorize(Role.Admin), createNew)       // all authenticated users
+router.post('/add', authorize(), createNew)       // all authenticated users
 module.exports = router;
 
 
@@ -49,17 +49,16 @@ function createNew(res, req, next){
     const location = req.body.location;
     const distance = req.body.distance;
     const attendence = req.body.attendence;
-    const userId = req.user;
+    const userId = req.user.sub;
 
     const NewUser = new Attendence({
-        username,
-        name,
-        email,
-        password,
-        role
+        location,
+        distance,
+        attendence,
+        userId
     })
 
     NewUser.save().
-            then(()=>{res ? res.json('User has been added') : res.status(400)}).
+            then(()=>{res ? res.json('attendence has been added') : res.status(400)}).
             catch(err =>{next(err)})
 }
