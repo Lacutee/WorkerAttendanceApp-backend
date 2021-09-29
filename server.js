@@ -7,7 +7,6 @@ const errorHandler = require('./helper-func/error-handler');
 
 
 const mongoose = require('mongoose');
-const { User } = require('./models/users.model')
 
 require('dotenv').config();
 
