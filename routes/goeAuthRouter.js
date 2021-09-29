@@ -39,25 +39,26 @@ function dellById(req, res, next){
     if (id !== currentUser.sub && currentUser.role !== Role.Admin) {
         return res.status(401).json({ message: 'Unauthorized' });
     }
-
+    
     Attendence.findByIdAndDelete(req.params.id).
         then(()=>{res ? res.json(`User ${req.params.id} has been deleted`) : res.status(400)}).
         catch(err=>{next(err)})
 }
 
 function createNew(res, req, next){
-    const location = req.body.location;
+    const latitude = req.body.latitude;
+    const longtitude = req.body.longtitude;
     const distance = req.body.distance;
     const attendence = req.body.attendence;
     const userId = req.user.sub;
 
     const NewUser = new Attendence({
-        location,
+        latitude,
+        longtitude,
         distance,
         attendence,
         userId
     })
-
     NewUser.save().
             then(()=>{res ? res.json('attendence has been added') : res.status(400)}).
             catch(err =>{next(err)})
