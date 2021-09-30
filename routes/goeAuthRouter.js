@@ -66,6 +66,6 @@ function createNew(req, res, next){
         userId
     });
     NewUser.save().
-            then(()=>{res ? res.json('attendence has been added') : res.status(400)}).
+            then(()=>{res.json('attendence has been added')}).
             catch(err =>{next(err)})
 }
