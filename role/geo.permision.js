@@ -19,7 +19,7 @@ async function getAll() {
 }
 
 async function getById(id) {
-      return Attendence.findById(id)
+      return Attendence.find({ userId: id})
             .then(attendence =>{
                 return attendence
             })

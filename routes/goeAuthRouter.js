@@ -7,9 +7,10 @@ const Attendence = require('../models/attendence.model');
 const { AutoEncryptionLoggerLevel } = require('mongodb');
 
 router.get('/', authorize(Role.Admin), getAll); // admin only
-router.get('/:id', authorize(), getById);
-router.delete('/delete/:id', authorize, dellById);
-router.post('/add', authorize(), createNew)       // all authenticated users
+router.get('/userId/:id', authorize(), getById);
+router.get('/:id', authorize(), getByUserId);
+router.delete('/delete/:id', authorize(Role.User), dellById);
+router.post('/add', authorize(Role.User), createNew)       // all authenticated users
 module.exports = router;
 
 
@@ -19,7 +20,7 @@ function getAll(req, res, next) {
         .catch(err => next(err));
 }
 
-function getById(req, res, next) {
+function getByUserId(req, res, next) {
     const currentUser = req.user;
     const id = parseInt(req.params.id);
 
@@ -27,28 +28,33 @@ function getById(req, res, next) {
     if (id !== currentUser.sub && currentUser.role !== Role.Admin) {
         return res.status(401).json({ message: 'Unauthorized' });
     }
+}
 
-    AttendenceService.getById(req.params.id)
+function getById(req, res, next) {
+    const currentUser = req.user;
+    const id = parseInt(req.params.id);
+
+
+    AttendenceService.getById(id)
+        .then(user => {if(user.userId !== currentUser.sub && currentUser.role !== Role.Admin){return res.status(401).json({ message: 'Unauthorized' });}})
         .then(user => user ? res.json(user) : res.sendStatus(404))
         .catch(err => next(err));
 }
 
 function dellById(req, res, next){
+    const currentUser = req.user;
 
-    // only allow admins to access other user records
-    if (id !== currentUser.sub && currentUser.role !== Role.Admin) {
-        return res.status(401).json({ message: 'Unauthorized' });
-    }
-    
-    Attendence.findByIdAndDelete(req.params.id).
-        then(()=>{res ? res.json(`User ${req.params.id} has been deleted`) : res.status(400)}).
-        catch(err=>{next(err)})
+
+    Attendence.findByIdAndDelete(req.params.id)
+        .then(user => {if(user.userId !== currentUser.sub){return res.status(401).json({ message: 'Unauthorized' });}})
+        .then(()=>{res ? res.json(`User ${req.params.id} has been deleted`) : res.status(400)})
+        .catch(err=>{next(err)})
 }
 
-function createNew(res, req, next){
-    const latitude = req.body.latitude;
-    const longtitude = req.body.longtitude;
-    const distance = req.body.distance;
+function createNew(req, res, next){
+    const latitude = Number(req.body.latitude);
+    const longtitude = Number(req.body.longtitude);
+    const distance = Number(req.body.distance);
     const attendence = req.body.attendence;
     const userId = req.user.sub;
 
@@ -58,7 +64,7 @@ function createNew(res, req, next){
         distance,
         attendence,
         userId
-    })
+    });
     NewUser.save().
             then(()=>{res ? res.json('attendence has been added') : res.status(400)}).
             catch(err =>{next(err)})
