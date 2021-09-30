@@ -11,6 +11,9 @@ router.get('/userId/:id', authorize(), getById);
 router.get('/:id', authorize(), getByUserId);
 router.delete('/delete/:id', authorize(Role.User), dellById);
 router.post('/add', authorize(Role.User), createNew)       // all authenticated users
+
+
+
 module.exports = router;
 
 
@@ -18,6 +21,7 @@ function getAll(req, res, next) {
     AttendenceService.getAll()
         .then(users => res.json(users))
         .catch(err => next(err));
+        
 }
 
 function getByUserId(req, res, next) {
@@ -28,6 +32,11 @@ function getByUserId(req, res, next) {
     if (id !== currentUser.sub && currentUser.role !== Role.Admin) {
         return res.status(401).json({ message: 'Unauthorized' });
     }
+
+    Attendence.find({userId: id})
+              .then(user => { res.json(user) })
+              .catch(err => next(err));
+              
 }
 
 function getById(req, res, next) {
@@ -36,7 +45,7 @@ function getById(req, res, next) {
 
 
     AttendenceService.getById(id)
-        .then(user => {if(user.userId !== currentUser.sub && currentUser.role !== Role.Admin){return res.status(401).json({ message: 'Unauthorized' });}})
+        .then(user => {if(user.userId !== currentUser.sub && currentUser.role !== Role.Admin){return res.status(401).json({user: user.userId});}})
         .then(user => user ? res.json(user) : res.sendStatus(404))
         .catch(err => next(err));
 }
@@ -44,10 +53,9 @@ function getById(req, res, next) {
 function dellById(req, res, next){
     const currentUser = req.user;
 
-
     Attendence.findByIdAndDelete(req.params.id)
         .then(user => {if(user.userId !== currentUser.sub){return res.status(401).json({ message: 'Unauthorized' });}})
-        .then(()=>{res ? res.json(`User ${req.params.id} has been deleted`) : res.status(400)})
+        .then(()=>{res.json(`User ${req.params.id} has been deleted`)}) 
         .catch(err=>{next(err)})
 }
 

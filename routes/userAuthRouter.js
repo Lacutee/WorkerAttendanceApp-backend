@@ -43,9 +43,10 @@ function dellById(req, res, next){
     }
 
     User.findByIdAndDelete(req.params.id).
-        then(()=>{res ? res.json(`User ${req.params.id} has been deleted`) : res.status(400)}).
+        then(()=>{res.json(`User ${req.params.id} has been deleted`)}).
         catch(err=>{next(err)})
-}
+
+    }
 
 function createNew(res, req, next){
     const username = res.body.username;
@@ -63,6 +64,6 @@ function createNew(res, req, next){
     })
 
     NewUser.save().
-            then(()=>{res ? res.json('User has been added') : res.status(400)}).
+            then(()=>{res.json('User has been added')}).
             catch(err =>{next(err)})
 }
