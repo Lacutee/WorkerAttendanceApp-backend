@@ -6,6 +6,8 @@ const Role = require('../role/role');
 const Attendence = require('../models/attendence.model');
 const { AutoEncryptionLoggerLevel } = require('mongodb');
 
+
+
 router.get('/', authorize(Role.Admin), getAll); // admin only
 router.get('/userId/:id', authorize(), getById);
 router.get('/:id', authorize(), getByUserId);
@@ -33,8 +35,8 @@ function getByUserId(req, res, next) {
         return res.status(401).json({ message: 'Unauthorized' });
     }
 
-    Attendence.find()
-              .then(user => { if(user.userId === id){res.json(user)} })
+    Attendence.find({'userId':user.userId})
+              .then(user => { res.send(user)})
               .catch(err => next(err));
 }
 
@@ -59,18 +61,16 @@ function dellById(req, res, next){
 }
 
 function createNew(req, res, next){
-    const latitude = Number(req.body.latitude);
-    const longtitude = Number(req.body.longtitude);
-    const distance = Number(req.body.distance);
+    const location = req.body.location;
     const attendence = req.body.attendence;
+    const distance = req.body.distance;
     const userId = req.user.sub;
 
     const NewUser = new Attendence({
-        latitude,
-        longtitude,
-        distance,
-        attendence,
-        userId
+            location,
+            attendence,
+            distance,
+            userId
     });
     NewUser.save().
             then(()=>{res.json('attendence has been added')}).
