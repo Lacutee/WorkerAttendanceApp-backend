@@ -28,11 +28,11 @@ router.route('/register').post((req, res) => {
 });
 
 router.route('/login').post((req, res) => {
-    const username = req.body.username;
+    const email = req.body.email;
     var password = req.body.password;
     password = crypto.createHash('sha256').update(password).digest('base64');
 
-    User.find({'username' : username}).
+    User.find({'email' : email}).
     then(user => {
         if(password == user[0].password) {
             const token = jwt.sign({ sub: user[0].id, role: user[0].role }, config.secret);
