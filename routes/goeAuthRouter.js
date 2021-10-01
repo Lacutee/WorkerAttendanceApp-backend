@@ -33,10 +33,9 @@ function getByUserId(req, res, next) {
         return res.status(401).json({ message: 'Unauthorized' });
     }
 
-    Attendence.find({userId: id})
-              .then(user => { res.json(user) })
+    Attendence.find()
+              .then(user => { if(user.userId === id){res.json(user)} })
               .catch(err => next(err));
-              
 }
 
 function getById(req, res, next) {
