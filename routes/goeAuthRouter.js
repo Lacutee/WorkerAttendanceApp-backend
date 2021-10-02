@@ -61,13 +61,15 @@ function dellById(req, res, next){
 }
 
 function createNew(req, res, next){
-    const location = req.body.location;
+    const latitude = req.body.latitude;
+    const longtitude = req.body.longtitude;
     const attendence = req.body.attendence;
     const distance = req.body.distance;
     const userId = req.user.sub;
 
     const NewUser = new Attendence({
-            location,
+            latitude,
+            longtitude,
             attendence,
             distance,
             userId
