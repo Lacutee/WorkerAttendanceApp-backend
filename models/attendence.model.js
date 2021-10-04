@@ -2,15 +2,10 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const attendenceScheme = new Schema({
-    latitude:{
-        type: Number,
+    location:{
+        type: Array,
         required: false,
-        default: 0
-    },
-    longtitude:{
-        type: Number,
-        required: false,
-        default: 0
+        default: [0,0]
     },
     attendance:{
         type: Boolean,
