@@ -21,7 +21,7 @@ function getAll(req, res, next) {
         .catch(err => next(err));
 }
 
-function getById(req, res, next) {
+function getById(req, res, next) {  
     const currentUser = req.user;
     const id = parseInt(req.params.id);
 
