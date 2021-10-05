@@ -24,19 +24,29 @@ function getAll(req, res, next) {
 }
 
 function updateId(req, res, next){
-    User.findById(req.params.id)
-        .then(users => {
-            users.username = req.body.username;
-            users.password = req.body.password;
-            users.name = req.body.name;
-            users.role = req.body.role;
-            users.email = req.body.email;
-            
-            users.save()
-                 .then(() => res.json('Users info was updated'))
-                 .catch(err => res.status(400).json('Error: ' + err));
-        })
-        .catch(err => res.status(400).json('Error: '+err));
+    const username = req.body.username;
+    const name = req.body.name;
+    const password = req.body.password;
+    const email = req.body.email;
+    const role = req.body.role;
+
+    const newData = {
+        username,
+        name,
+        email,
+        password,
+        role
+    }
+    User.findByIdAndUpdate(
+            req.params.id, 
+            newData,
+            {new: true},
+            (err, datas) =>{
+                if(err) return res.status(500).send(err);
+                return res.send(datas)
+            }
+
+        )
 };
 
 function getById(req, res, next) {  
