@@ -42,10 +42,17 @@ function updateId(req, res, next){
             _id, 
             newData,
             {new: true},
-            (err, datas) =>{
-                if(err) return res.status(500).send(err);
-                return res.send(datas)
-            }
+            (err, updatedBoard) => {
+                if (err) {
+                  res.json({
+                    newData,
+                    success: false,
+                    msg: 'Failed to update board'
+                  })
+                } else {
+                  res.json({newData, success: true, msg: 'Board added'})
+                }
+              }
 
         )
 };
