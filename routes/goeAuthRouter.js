@@ -28,13 +28,13 @@ function getAll(req, res, next) {
 
 function getByUserId(req, res, next) {
     const currentUser = req.user;
-    const id = req.params.id;
+    const id = parseInt(req.params.id);
 
     if (id !== currentUser.sub && currentUser.role !== Role.User) {
         return res.status(401).json({ message: 'Unauthorized' });
     }
 
-    Attendence.find({'userId': id})
+    Attendence.find({'userId': req.params.id})
               .then(user => { res.send(user)})
               .catch(err => next(err));
 }
