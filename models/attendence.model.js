@@ -10,7 +10,6 @@ const attendenceScheme = new Schema({
     attendance:{
         type: Boolean,
         required: false,
-        default: false,
     },
     distance:{
         type:Number,
