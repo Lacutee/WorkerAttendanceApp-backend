@@ -30,8 +30,7 @@ function getByUserId(req, res, next) {
     const currentUser = req.user;
     const id = parseInt(req.params.id);
 
-    // only allow admins to access other user records
-    if (id !== currentUser.sub && currentUser.role !== Role.Admin) {
+    if (id !== currentUser.sub && currentUser.role !== Role.User) {
         return res.status(401).json({ message: 'Unauthorized' });
     }
 
@@ -62,13 +61,13 @@ function dellById(req, res, next){
 
 function createNew(req, res, next){
     const location = req.body.location;
-    const attendence = req.body.attendence;
+    const attendance = req.body.attendance;
     const distance = req.body.distance;
     const userId = req.user.sub;
 
     const NewUser = new Attendence({
             location,
-            attendence,
+            attendance,
             distance,
             userId
     });

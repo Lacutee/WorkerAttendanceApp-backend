@@ -11,7 +11,8 @@ const { AutoEncryptionLoggerLevel } = require('mongodb');
 router.get('/', authorize(Role.Admin), getAll); // admin only
 router.get('/:id', authorize(), getById);
 router.delete('/delete/:id', authorize, dellById);
-router.post('/add', authorize(Role.Admin), createNew)       // all authenticated users
+router.post('/add', authorize(Role.Admin), createNew)
+router.post('/update/:id', authorize(), updateId)        // all authenticated users
 module.exports = router;
 
 
@@ -19,6 +20,10 @@ function getAll(req, res, next) {
     userService.getAll()
         .then(users => res.json(users))
         .catch(err => next(err));
+}
+
+function updateId(req, res, next){
+    
 }
 
 function getById(req, res, next) {  
