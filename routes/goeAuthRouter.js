@@ -9,8 +9,8 @@ const { AutoEncryptionLoggerLevel } = require('mongodb');
 
 
 router.get('/', authorize(Role.Admin), getAll); // admin only
-router.get('/userId/:id', authorize(), getById);
-router.get('/:id', authorize(), getByUserId);
+router.get('/:id', authorize(), getById);
+router.get('/userId/:id', authorize(), getByUserId);
 router.delete('/delete/:id', authorize(Role.User), dellById);
 router.post('/add', authorize(Role.User), createNew)       // all authenticated users
 
@@ -34,7 +34,7 @@ function getByUserId(req, res, next) {
         return res.status(401).json({ message: 'Unauthorized' });
     }
 
-    Attendence.find({'userId':user.userId})
+    Attendence.find({'userId': id})
               .then(user => { res.send(user)})
               .catch(err => next(err));
 }
