@@ -24,6 +24,7 @@ function getAll(req, res, next) {
 }
 
 function updateId(req, res, next){
+    const {id: _id} = req.params 
     const username = req.body.username;
     const name = req.body.name;
     const password = req.body.password;
@@ -38,7 +39,7 @@ function updateId(req, res, next){
         role
     }
     User.findByIdAndUpdate(
-            req.params.id, 
+            _id, 
             newData,
             {new: true},
             (err, datas) =>{
