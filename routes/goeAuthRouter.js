@@ -28,7 +28,7 @@ function getAll(req, res, next) {
 
 function getByUserId(req, res, next) {
     const currentUser = req.user;
-    const id = parseInt(req.params.id);
+    const id = req.params.id;
 
     if (id !== currentUser.sub && currentUser.role !== Role.User) {
         return res.status(401).json({ message: 'Unauthorized' });
@@ -74,7 +74,7 @@ function createNew(req, res, next){
             return undefined;
         }
     }
-
+    console.log(convert_val);
     const attendance = convert_val(attendance_req)
 
     const NewUser = new Attendence({
