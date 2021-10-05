@@ -59,7 +59,7 @@ function updateId(req, res, next){
 
 function getById(req, res, next) {  
     const currentUser = req.user;
-    const id = parseInt(req.params.id);
+    const id = req.params.id;
 
     // only allow admins to access other user records
     if (id !== currentUser.sub && currentUser.role !== Role.Admin) {
