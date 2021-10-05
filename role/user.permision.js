@@ -26,3 +26,4 @@ async function getById(id) {
                   return userWithoutPassword;
                 })
 }
+
