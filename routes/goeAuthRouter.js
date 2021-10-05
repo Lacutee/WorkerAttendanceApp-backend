@@ -61,9 +61,21 @@ function dellById(req, res, next){
 
 function createNew(req, res, next){
     const location = req.body.location;
-    const attendance = req.body.attendance;
+    const attendance_req = req.body.attendance;
     const distance = req.body.distance;
     const userId = req.user.sub;
+
+    const convert_val = (attendance_req) =>{
+        if(attendance_req === 1){
+            return true;
+        }else if(attendance_req === 0){
+            return false;
+        }else{
+            return undefined;
+        }
+    }
+
+    const attendance = convert_val(attendance_req)
 
     const NewUser = new Attendence({
             location,
