@@ -44,7 +44,7 @@ function forgetPass(req, res, next){
     var password1 = req.body.password1;
     var passowrd2 = req.body.password2;
 
-    if (id !== currentUser.sub && currentUser.role !== Role.Admin) {
+    if (req.params.id !== currentUser.sub && currentUser.role !== Role.Admin) {
         return res.status(401).json({ message: 'Unauthorized' });
     }
 
