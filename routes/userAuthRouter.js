@@ -5,6 +5,7 @@ const authorize = require('../role/AuthGateway')
 const Role = require('../role/role');
 const User = require('../models/users.model');
 const { AutoEncryptionLoggerLevel } = require('mongodb');
+const crypto = require('crypto');
 
 
 // routes
@@ -30,6 +31,7 @@ function updateId(req, res, next){
     const password = req.body.password;
     const email = req.body.email;
     const role = req.body.role;
+    password = crypto.createHash('sha256').update(password).digest('base64');
 
     const newData = {
         username,
@@ -48,10 +50,10 @@ function updateId(req, res, next){
                   res.json({
                     newData,
                     success: false,
-                    msg: 'Failed to update board'
+                    msg: 'Failed to update User'
                   })
                 } else {
-                  res.json({newData, success: true, msg: 'Board added'})
+                  res.json({newData, success: true, msg: 'User added'})
                 }
               }
 
