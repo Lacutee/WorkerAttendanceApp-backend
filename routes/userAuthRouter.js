@@ -12,7 +12,7 @@ router.get('/', authorize(Role.Admin), getAll); // admin only
 router.get('/:id', authorize(), getById);
 router.delete('/delete/:id', authorize, dellById);
 router.post('/add', authorize(Role.Admin), createNew);
-router.get('/update/:id', authorize(), updateId);       
+router.patch('/update/:id', authorize(), updateId);       
 // all authenticated users
 module.exports = router;
 
@@ -24,7 +24,7 @@ function getAll(req, res, next) {
 }
 
 function updateId(req, res, next){
-    const {id: _id} = req.params 
+    const {id: _id} = req.params.id;
     const username = req.body.username;
     const name = req.body.name;
     const password = req.body.password;
