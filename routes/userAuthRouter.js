@@ -12,7 +12,7 @@ router.get('/', authorize(Role.Admin), getAll); // admin only
 router.get('/:id', authorize(), getById);
 router.delete('/delete/:id', authorize, dellById);
 router.post('/add', authorize(Role.Admin), createNew);
-router.patch('/update/:id', authorize(), updateId);       
+router.get('/update/:id', authorize(), updateId);       
 // all authenticated users
 module.exports = router;
 
