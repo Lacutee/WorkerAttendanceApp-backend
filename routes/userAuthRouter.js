@@ -52,12 +52,13 @@ function forgetPass(req, res, next){
         password1 = crypto.createHash('sha256').update(password1).digest('base64');
 
         const newPass = {
-            password: password1
+            'password': password1
         }
         User.findByIdAndUpdate(
             _id,
-            newPass,
+            { $set: {newPass}},
             {new: true},
+            {multi: true},
             (err, newPass) =>{
                 if(err){
                     res.json({
