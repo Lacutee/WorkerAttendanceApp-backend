@@ -40,7 +40,6 @@ function updateId(req, res, next){
         password,
         role
     }
-    res.send(_id)
     User.findByIdAndUpdate(
             _id, 
             newData,
