@@ -38,23 +38,24 @@ function updateId(req, res, next){
         password,
         role
     }
-    User.findByIdAndUpdate(
-            _id, 
-            newData,
-            {new: true},
-            (err, updatedBoard) => {
-                if (err) {
-                  res.json({
-                    newData,
-                    success: false,
-                    msg: 'Failed to update board'
-                  })
-                } else {
-                  res.json({newData, success: true, msg: 'Board added'})
-                }
-              }
+    res.send(_id)
+    // User.findByIdAndUpdate(
+    //         _id, 
+    //         newData,
+    //         {new: true},
+    //         (err, updatedBoard) => {
+    //             if (err) {
+    //               res.json({
+    //                 newData,
+    //                 success: false,
+    //                 msg: 'Failed to update board'
+    //               })
+    //             } else {
+    //               res.json({newData, success: true, msg: 'Board added'})
+    //             }
+    //           }
 
-        )
+    //     )
 };
 
 function getById(req, res, next) {  
