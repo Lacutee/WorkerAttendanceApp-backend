@@ -14,21 +14,39 @@ router.get('/:id', authorize(), getById);
 router.delete('/delete/:id', authorize, dellById);
 router.post('/add', authorize(Role.Admin), createNew);
 router.put('/update/:id', authorize(), updateId);
-router.put('/forget:id', authorize(), forgetPass);       
+router.put('/forget/:id', authorize(), forgetPass);
+router.get('/question/:id', authorize(), question);       
 // all authenticated users
 module.exports = router;
 
 
 function getAll(req, res, next) {
+    
     userService.getAll()
         .then(users => res.json(users))
         .catch(err => next(err));
+    
+}
+
+function question(req, res, next){
+    if (id !== currentUser.sub && currentUser.role !== Role.Admin) {
+        return res.status(401).json({ message: 'Unauthorized' });
+    }
+
+    User.findById(req.params.id)
+        .then(user => res.json(user))
+        .catch(err => err.status(400).json('question not found'))
+
 }
 
 function forgetPass(req, res, next){
     const {id: _id} = req.params;
     var password1 = req.body.password1;
     var passowrd2 = req.body.password2;
+
+    if (id !== currentUser.sub && currentUser.role !== Role.Admin) {
+        return res.status(401).json({ message: 'Unauthorized' });
+    }
 
     if(password1 == passowrd2){
         password1 = crypto.createHash('sha256').update(password1).digest('base64');
@@ -66,6 +84,9 @@ function updateId(req, res, next){
     var password = req.body.password;
     const email = req.body.email;
     const role = req.body.role;
+    const question = req.body.question;
+    const answer = req.body.answer;
+
     password = crypto.createHash('sha256').update(password).digest('base64');
 
     const newData = {
@@ -73,7 +94,9 @@ function updateId(req, res, next){
         name,
         email,
         password,
-        role
+        role,
+        question,
+        answer
     }
     User.findByIdAndUpdate(
             _id, 
