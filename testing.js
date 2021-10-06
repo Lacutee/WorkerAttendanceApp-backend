@@ -1,15 +1,9 @@
-const jwt_decode =  require('jwt-decode')
+const crypto = require('crypto')
 
-token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2MTU4MmY5Zjk2MTY0ZDAwMTY0YzAzMTEiLCJyb2xlIjoidXNlciIsImlhdCI6MTYzMzE2OTM1MX0.v2ZMrYbdVsHeG8QPmaP-G65LW3O_ATv9AOjg8Hi1vEg"
+const password = "4XfpSPQoj+nzw1+OqSEHzX3QZx16xkulh6TxUHNTbqE="
 
-fetch('https://arcane-badlands-64583.herokuapp.com/attandence/add',{
-    method= 'post',
-    headers: new Headers({
-        'Authorization': 'Bearer '+ token,
-        'Content-Type': 'application/json'
-    }),
-    body:{	"location": [29,3],
-            "distance":32,
-            "attendence":true
-}
-})
+// password = crypto.createCipheriv('aes-128-ccm').update(password).digest('hex')
+password = crypto.createHash('sha256').update(password).digest('hex');
+
+
+console.log(password)

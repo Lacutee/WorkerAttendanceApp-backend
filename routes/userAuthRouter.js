@@ -13,7 +13,8 @@ router.get('/', authorize(Role.Admin), getAll); // admin only
 router.get('/:id', authorize(), getById);
 router.delete('/delete/:id', authorize, dellById);
 router.post('/add', authorize(Role.Admin), createNew);
-router.put('/update/:id', authorize(), updateId);        
+router.put('/update/:id', authorize(), updateId);
+router.put('/forget:id', authorize(), forgetPass);       
 // all authenticated users
 module.exports = router;
 
@@ -22,6 +23,40 @@ function getAll(req, res, next) {
     userService.getAll()
         .then(users => res.json(users))
         .catch(err => next(err));
+}
+
+function forgetPass(req, res, next){
+    const {id: _id} = req.params;
+    var password1 = req.body.password1;
+    var passowrd2 = req.body.password2;
+
+    if(password1 == passowrd2){
+        password1 = crypto.createHash('sha256').update(password1).digest('base64');
+
+        const newPass = {
+            password: password1
+        }
+        User.findByIdAndUpdate(
+            _id,
+            newPass,
+            {new: true},
+            (err, newPass) =>{
+                if(err){
+                    res.json({
+                        newPass,
+                        success: false,
+                        msg: 'Failed to update Password'
+                    })
+                }else{
+                    res.json({newPass, success: true, msg: 'Password has been updated'})
+                }
+            }
+
+        )
+    }else{
+        res.status(400).json('Password does not match')
+    }
+    
 }
 
 function updateId(req, res, next){
@@ -52,7 +87,7 @@ function updateId(req, res, next){
                     msg: 'Failed to update User'
                   })
                 } else {
-                  res.json({newData, success: true, msg: 'User added'})
+                  res.json({newData, success: true, msg: 'User hase been updated'})
                 }
               }
 

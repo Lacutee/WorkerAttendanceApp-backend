@@ -34,6 +34,16 @@ const userSchema = new Schema({
         trim: true,
         unique: false,
     },
+    question:{
+        type: String,
+        required: false,
+        trim: true,
+    },
+    answer:{
+        type: String,
+        required: false,
+        trim: false,
+    }
 
 
 },{

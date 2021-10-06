@@ -39,10 +39,10 @@ router.route('/login').post((req, res) => {
             const { password, ...userWithoutPassword } = user;
             res.send(token);
         } else{
-            res.status(400).json('Error : wrong password');
+            res.status(400).json('Wrong password');
         }
     })
-    .catch(err => res.status(400).json(err));;
+    .catch(err => res.status(400).json('User not found'));;
 });
 
 module.exports = router;
