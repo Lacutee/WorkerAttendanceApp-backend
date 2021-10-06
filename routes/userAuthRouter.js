@@ -45,7 +45,7 @@ function updateId(req, res, next){
             _id, 
             newData,
             {new: true},
-            (err, updatedBoard) => {
+            (err, newData) => {
                 if (err) {
                   res.json({
                     newData,
