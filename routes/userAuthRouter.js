@@ -28,7 +28,7 @@ function updateId(req, res, next){
     const {id: _id} = req.params;
     const username = req.body.username;
     const name = req.body.name;
-    const password = req.body.password;
+    var password = req.body.password;
     const email = req.body.email;
     const role = req.body.role;
     password = crypto.createHash('sha256').update(password).digest('base64');
