@@ -40,7 +40,7 @@ function question(req, res, next){
 }
 
 function forgetPass(req, res, next){
-    const {id: _id} = req.params;
+    const id= req.params.id;
     var password1 = req.body.password1;
     var passowrd2 = req.body.password2;
 
@@ -53,7 +53,7 @@ function forgetPass(req, res, next){
 
 
         User.findByIdAndUpdate(
-            _id,
+            {_id: id},
             { $set: {
                 "password": password1
             } },
