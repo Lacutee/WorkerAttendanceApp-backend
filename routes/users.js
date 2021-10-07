@@ -24,7 +24,7 @@ router.route('/register').post((req, res) => {
 
     newUser.save()
     .then(() => res.json('Success register!'))
-    .catch(err => res.status(400).json('Error: ' + err));
+    .catch(err => res.status(400).json('Username have been taken. Please login'));
 });
 
 router.route('/login').post((req, res) => {
