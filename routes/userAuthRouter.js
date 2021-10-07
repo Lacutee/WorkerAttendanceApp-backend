@@ -36,7 +36,7 @@ function question(req, res, next){
     }
 
     User.findById(req.params.id)
-        .then(user => res.json({question: user.question, answer: user.answer, email: user.email}))
+        .then(user => res.json({question: user.question, answer: user.answer, email: user.email, userId: user._id}))
         .catch(err => err.status(400).json('question not found'))
 
 }
