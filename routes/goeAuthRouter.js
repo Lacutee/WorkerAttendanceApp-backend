@@ -22,14 +22,11 @@ module.exports = router;
 function getAll(req, res, next) {
     AttendenceService.getAll()
         .then((users)=>{
-                const tmp = [];
-                
-                users.forEach((user)=>
-                    {
-                        tmp.push(formatDateTime(user.createdAt, true))
-                    })
-                console.log(tmp);
-                res.send(tmp);
+                    res.send(users.map(
+                        (user =>{
+                            formatDateTime(user.createdAt, true)
+                        })
+                    ))
                 }
         ).catch(err => next(err));
         
