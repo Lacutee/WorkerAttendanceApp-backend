@@ -40,10 +40,10 @@ function question(req, res, next){
 }
 
 function forgetPass(req, res, next){
-    const id= req.params.id;
+    const id = req.params.id;
     var password1 = req.body.password1;
     var passowrd2 = req.body.password2;
-
+    console.log('id forget = '+id)
     if (req.params.id !== currentUser.sub && currentUser.role !== Role.Admin) {
         return res.status(401).json({ message: 'Unauthorized' });
     }
@@ -54,9 +54,11 @@ function forgetPass(req, res, next){
 
         User.findByIdAndUpdate(
             {_id: id},
-            { $set: {
-                "password": password1
-            } },
+            { $set: 
+                {
+                password: password1
+                }
+            },
             {new: true},
             (err, newPass) =>{
                 if(err){
