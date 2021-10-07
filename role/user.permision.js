@@ -1,6 +1,4 @@
-const config = require('../config.json');
-const jwt = require('jsonwebtoken');
-const Role = require('./role');
+
 const Users = require('../models/users.model')
 
 
