@@ -25,7 +25,7 @@ function getAll(req, res, next) {
                     var tmp = []
                     users.map(
                         user =>{
-                            tmp.push([user, formatDateTime(user.createAdd, true)])
+                            tmp.push([user, formatDateTime(user.createdAt, true)])
                         }
                     )
                     res.send(
