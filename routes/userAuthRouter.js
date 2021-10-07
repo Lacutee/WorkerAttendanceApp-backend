@@ -29,6 +29,7 @@ function getAll(req, res, next) {
 }
 
 function question(req, res, next){
+    const currentUser = req.user;
     if (id !== currentUser.sub && currentUser.role !== Role.Admin) {
         return res.status(401).json({ message: 'Unauthorized' });
     }
@@ -43,12 +44,14 @@ function forgetPass(req, res, next){
     const id = req.params.id;
     var password1 = req.body.password1;
     var passowrd2 = req.body.password2;
+    const currentUser = req.user;
+
     console.log('id forget = '+id)
     if (req.params.id !== currentUser.sub && currentUser.role !== Role.Admin) {
         return res.status(401).json({ message: 'Unauthorized' });
     }
 
-    if(password1 == passowrd2){
+    if(password1 === passowrd2){
         password1 = crypto.createHash('sha256').update(password1).digest('base64');
 
 
@@ -134,7 +137,7 @@ function getById(req, res, next) {
 }
 
 function dellById(req, res, next){
-
+    const currentUser = req.user;
     // only allow admins to access other user records
     if (id !== currentUser.sub && currentUser.role !== Role.Admin) {
         return res.status(401).json({ message: 'Unauthorized' });
