@@ -29,8 +29,7 @@ function getAll(req, res, next) {
 
 function forgetPass(req, res, next){
     const id = req.params.id;
-    var password1 = req.body.password1;
-    var passowrd2 = req.body.password2;
+    var password = req.body.password;
     const currentUser = req.user;
 
     console.log('id forget = '+id)
@@ -38,15 +37,14 @@ function forgetPass(req, res, next){
         return res.status(401).json({ message: 'Unauthorized' });
     }
 
-    if(password1 === passowrd2){
-        password1 = crypto.createHash('sha256').update(password1).digest('base64');
+        password = crypto.createHash('sha256').update(password).digest('base64');
 
 
         User.findByIdAndUpdate(
             {_id: id},
             { $set: 
                 {
-                password: password1
+                password: password
                 }
             },
             {new: true},
@@ -63,9 +61,7 @@ function forgetPass(req, res, next){
             }
 
         )
-    }else{
-        res.status(400).json('Password does not match')
-    }
+
     
 }
 
