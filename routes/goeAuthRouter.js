@@ -21,8 +21,13 @@ module.exports = router;
 
 function getAll(req, res, next) {
     AttendenceService.getAll()
-        .then(users => res.json({Attendence: users, date: formatDateTime(users.createdAt)}))
-        .catch(err => next(err));
+        .then((users)=>{
+                const tmp = [];
+                users.forEach((user)=>
+                    {
+                        
+                    })}
+        ).catch(err => next(err));
         
 }
 

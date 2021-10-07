@@ -30,12 +30,13 @@ function getAll(req, res, next) {
 
 function question(req, res, next){
     const currentUser = req.user;
+    const id = req.params.id;
     if (id !== currentUser.sub && currentUser.role !== Role.Admin) {
         return res.status(401).json({ message: 'Unauthorized' });
     }
 
     User.findById(req.params.id)
-        .then(user => res.json({question: user.question, answer: user.answer}))
+        .then(user => res.json({question: user.question, answer: user.answer, email: user.email}))
         .catch(err => err.status(400).json('question not found'))
 
 }
