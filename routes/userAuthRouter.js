@@ -15,7 +15,7 @@ router.delete('/delete/:id', authorize, dellById);
 router.post('/add', authorize(Role.Admin), createNew);
 router.put('/update/:id', authorize(), updateId);
 router.put('/forget/:id', authorize(), forgetPass);
-router.get('/question/:id', authorize(), question);       
+router.get('/question/', authorize(), question);       
 // all authenticated users
 module.exports = router;
 
@@ -35,7 +35,7 @@ function question(req, res, next){
         return res.status(401).json({ message: 'Unauthorized' });
     }
 
-    User.findById(req.params.id)
+    User.find()
         .then(user => res.json({question: user.question, answer: user.answer, email: user.email, userId: user._id}))
         .catch(err => err.status(400).json('question not found'))
 
