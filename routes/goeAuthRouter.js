@@ -25,8 +25,10 @@ function getAll(req, res, next) {
                 const tmp = [];
                 users.forEach((user)=>
                     {
-                        
-                    })}
+                        tmp.push(formatDateTime(user.createdAt, true))
+                    })
+                res.send(tmp)
+                }
         ).catch(err => next(err));
         
 }
