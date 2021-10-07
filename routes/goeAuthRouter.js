@@ -49,8 +49,20 @@ function getByUserId(req, res, next) {
     }
 
     Attendence.find({'userId': req.params.id})
-              .then(user => {
-                  
+              .then(users => {
+                var tmp = []
+                users.map(
+                    user =>{
+                        tmp.push({attendance: user.attendance,
+                                  location: user.location,
+                                  distance: user.distance,
+                                  userId: user.userId,
+                                  Date: formatDateTime(user.createdAt, true)})
+                    }
+                )
+                res.send(
+                    tmp
+                )
               })
               .catch(err => next(err));
 }
