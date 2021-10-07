@@ -5,7 +5,7 @@ const authorize = require('../role/AuthGateway')
 const Role = require('../role/role');
 const Attendence = require('../models/attendence.model');
 const { AutoEncryptionLoggerLevel } = require('mongodb');
-
+const formatDateTime = require('../helper-func/date-converter')
 
 
 router.get('/', authorize(Role.Admin), getAll); // admin only
@@ -21,7 +21,7 @@ module.exports = router;
 
 function getAll(req, res, next) {
     AttendenceService.getAll()
-        .then(users => res.json(users))
+        .then(users => res.json({Attendence: users, date: formatDateTime(users.createdAt)}))
         .catch(err => next(err));
         
 }
