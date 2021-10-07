@@ -22,13 +22,15 @@ module.exports = router;
 function getAll(req, res, next) {
     AttendenceService.getAll()
         .then((users)=>{
-                    res.send(users.map(
-                        (user =>{
-                                const {createdAt, ...withoutDate} = user;
-                                withoutDate;
-                                formatDateTime(createdAt, true)
-                        })
-                    ))
+                    var tmp = []
+                    users.map(
+                        user =>{
+                            tmp.push([user, formatDateTime(user.createAdd)])
+                        }
+                    )
+                    res.send(
+                        tmp
+                    )
                 }
         ).catch(err => next(err));
         
