@@ -24,7 +24,13 @@ function getAll(req, res, next) {
         .then((users)=>{
                     res.send(users.map(
                         (user =>{
-                            formatDateTime(user.createdAt, true)
+                            [
+                                users.location,
+                                users.attendance,
+                                users.distance,
+                                users.userId,
+                                formatDateTime(user.createdAt, true)
+                            ]
                         })
                     ))
                 }

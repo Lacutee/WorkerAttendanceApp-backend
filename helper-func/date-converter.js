@@ -37,7 +37,7 @@ const formatDateTime = (date, isStringMonth = false) => {
         }
     if (day.length < 2) day = "0" + day;
 
-    return isStringMonth ? [day, month, year].join(" ") + " " + hours + " " + minutes : [year, month, day].join("-");
+    return isStringMonth ? [day, month, year].join(" ") + " " + hours + " : " + minutes : [year, month, day].join("-");
 };
 
 module.exports = formatDateTime;
