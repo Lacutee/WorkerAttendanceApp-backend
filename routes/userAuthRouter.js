@@ -15,7 +15,7 @@ router.delete('/delete/:id', authorize, dellById);
 router.post('/add', authorize(Role.Admin), createNew);
 router.put('/update/:id', authorize(), updateId);
 router.put('/forget/:id', authorize(), forgetPass);
-router.get('/question/', authorize(), question);       
+router.get('/question', question);       
 // all authenticated users
 module.exports = router;
 
@@ -29,12 +29,9 @@ function getAll(req, res, next) {
 }
 
 function question(req, res, next){
-    const currentUser = req.user;
-
     User.find()
         .then(user => res.json({question: user.question, answer: user.answer, email: user.email, userId: user._id}))
         .catch(err => err.status(400).json('question not found'))
-
 }
 
 function forgetPass(req, res, next){
