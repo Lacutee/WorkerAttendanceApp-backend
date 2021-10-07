@@ -49,7 +49,9 @@ function getByUserId(req, res, next) {
     }
 
     Attendence.find({'userId': req.params.id})
-              .then(user => { res.send(user)})
+              .then(user => {
+                  
+              })
               .catch(err => next(err));
 }
 
