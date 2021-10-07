@@ -23,11 +23,13 @@ function getAll(req, res, next) {
     AttendenceService.getAll()
         .then((users)=>{
                 const tmp = [];
+                
                 users.forEach((user)=>
                     {
                         tmp.push(formatDateTime(user.createdAt, true))
                     })
-                res.send(tmp)
+                console.log(tmp);
+                res.send(tmp);
                 }
         ).catch(err => next(err));
         
