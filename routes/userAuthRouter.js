@@ -16,7 +16,7 @@ router.post('/add', authorize(Role.Admin), createNew);
 router.put('/update/:id', authorize(), updateId);
 router.put('/forget/:id', authorize(), forgetPass);
 router.put('/office/edit/:id', authorize(), officeEdit);
-router.put('/office/get/:id', authorize(), officeGet)
+router.get('/office/get/:id', authorize(), officeGet)
 // all authenticated users
 module.exports = router;
 
