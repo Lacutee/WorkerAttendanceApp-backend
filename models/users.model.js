@@ -43,6 +43,11 @@ const userSchema = new Schema({
         type: String,
         required: false,
         trim: false,
+    },
+    officeLoc:{
+        type:Array,
+        required: false,
+        default: [0,0]
     }
 
 

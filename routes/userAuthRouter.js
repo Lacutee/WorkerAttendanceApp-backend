@@ -15,9 +15,48 @@ router.delete('/delete/:id', authorize, dellById);
 router.post('/add', authorize(Role.Admin), createNew);
 router.put('/update/:id', authorize(), updateId);
 router.put('/forget/:id', authorize(), forgetPass);
+router.put('/office/edit/:id', authorize(), officeEdit);
+router.put('/office/get/:id', authorize(), officeGet)
 // all authenticated users
 module.exports = router;
 
+function officeGet(req, res, next){
+    const id = req.params.id;
+    User.findById(id)
+        .then(res =>{
+            res.send({
+                location: res.officeLoc
+            })
+        })
+}
+
+function officeEdit(req, res, next){
+    const id = req.params.id;
+    const location = req.body.location;
+
+    User.findByIdAndUpdate(
+        {_id: id},
+        { $set: 
+            {
+            officeLoc: location
+            }
+        },
+        {new: true},
+        (err, newLoc)=>{
+            if(err){
+                res.json({
+                    newLoc,
+                    success: false,
+                    msg: 'Failed to update Location'
+                })
+        }else{
+            res.json({newLoc, success: true, msg: 'Location has been updated'})
+        }
+    }
+    
+    )
+}
+        
 
 function getAll(req, res, next) {
     
@@ -28,6 +67,7 @@ function getAll(req, res, next) {
 }
 
 function forgetPass(req, res, next){
+
     const id = req.params.id;
     var password = req.body.password;
     const currentUser = req.user;
