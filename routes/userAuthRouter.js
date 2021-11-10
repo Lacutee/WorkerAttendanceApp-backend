@@ -32,7 +32,7 @@ function officeGet(req, res, next){
 
 function officeEdit(req, res, next){
     const id = req.params.id;
-    const location = req.body.location;
+    const location = req.body.officeLoc;
 
     User.findByIdAndUpdate(
         {_id: id},
