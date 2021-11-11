@@ -20,7 +20,7 @@ const formatDateTime = (date, isStringMonth = false) => {
         "Nov",
         "Des",
     ];
-
+    console.log(month.length)
     if (hours < 10) {
         hours = "0" + hours;
     }
@@ -29,7 +29,7 @@ const formatDateTime = (date, isStringMonth = false) => {
         minutes = "0" + minutes;
     }
 
-    if (month.length < 2)
+    if (month.length < 3)
         if (isStringMonth) {
             month = stringMonth[month];
         } else {

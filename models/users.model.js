@@ -46,7 +46,8 @@ const userSchema = new Schema({
     },
     officeLoc:{
         type: Array,
-        required: false
+        required: false,
+
     }
 
 
