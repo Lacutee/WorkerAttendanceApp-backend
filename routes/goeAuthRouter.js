@@ -20,24 +20,17 @@ module.exports = router;
 
 
 function getAll(req, res, next) {
-    AttendenceService.getAll()
-        .then((users)=>{
-                    var tmp = []
-                    users.map(
-                        user =>{
-                            tmp.push({attendance: user.attendance,
-                                      location: user.location,
-                                      distance: user.distance,
-                                      user: user.name,
-                                      Date: formatDateTime(user.createdAt, true)})
-                        }
-                    )
-                    res.send(
-                        tmp
-                    )
-                }
-        ).catch(err => next(err));
-        
+    AttendenceService.aggregate([
+        {
+            $lookup:{
+                from: "User",
+                localfield: "userId",
+                foreignField: "userId",
+                as: "adress"
+            }
+        }
+    ]).pretty()
+         .catch(err => next(err));        
 }
 
 function getByUserId(req, res, next) {
