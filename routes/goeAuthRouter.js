@@ -28,7 +28,7 @@ function getAll(req, res, next) {
                             tmp.push({attendance: user.attendance,
                                       location: user.location,
                                       distance: user.distance,
-                                      userId: user.userId,
+                                      user: user.name,
                                       Date: formatDateTime(user.createdAt, true)})
                         }
                     )
