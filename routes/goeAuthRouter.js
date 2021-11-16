@@ -6,7 +6,6 @@ const Role = require('../role/role');
 const Attendence = require('../models/attendence.model');
 const { AutoEncryptionLoggerLevel } = require('mongodb');
 const formatDateTime = require('../helper-func/date-converter')
-const Attendence = require('../models/attendence.model')
 
 
 router.get('/', authorize(Role.Admin), getAll); // admin only
