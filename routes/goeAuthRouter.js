@@ -24,9 +24,9 @@ function getAll(req, res, next) {
         {
             $lookup:{
                 from: "User",
-                localField: "_id",
+                localField: "id",
                 foreignField: "userId",
-                as: "address"
+                as: "username"
             }
         }
     ]).then(data=>{res.send(data)})
