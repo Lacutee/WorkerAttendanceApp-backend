@@ -22,16 +22,17 @@ module.exports = router;
 
 
 function getAll(req, res, next) {
-    Users.aggregate([
-        {"$addFields":{"user_id":{ "$toString": "$_id" }}},
-        {    "$lookup":{
-                "from": "Attendence",
-                "localField": "userId",
-                "foreignField": "user_id",
-                "as": "gatau"
-            }
-        }
-    ]).then(data=>{res.send(data)})
+    Attendence.find().then(data=>{
+        var empty = []
+        data.map(datas=>{
+            Users.findById(datas.userId).then(user=>{
+                empty.push(user)
+            })
+            // empty.push(users)
+        })
+        res.send(empty)
+        
+    })
          .catch(err => next(err));        
 }
 
