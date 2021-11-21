@@ -21,13 +21,12 @@ module.exports = router;
 
 function getAll(req, res, next) {
     Attendence.aggregate([
-        {
-            $addFields: { userId: {$toString: "_id"}},
-            $lookup:{
-                from: "User",
-                localField: "userId",
-                foreignField: "userId",
-                as: "name"
+        {   "$addFields": { "userId": {"$toString": "_id"}}},
+        {    "$lookup":{
+                "from": "User",
+                "localField": "userId",
+                "foreignField": "userId",
+                "as": "name"
             }
         }
     ]).then(data=>{res.send(data)})
