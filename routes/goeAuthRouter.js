@@ -28,7 +28,7 @@ function getAll(req, res, next) {
                 "from": "Attendence",
                 "localField": "userId",
                 "foreignField": "user_id",
-                "as": "finaltest"
+                "as": "gatau"
             }
         }
     ]).then(data=>{res.send(data)})
