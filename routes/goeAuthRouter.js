@@ -25,10 +25,12 @@ function getAll(req, res, next) {
     Attendence.find().then(data=>{
         var empty = []
         data.map(datas=>{
-            var users = Users.findById(datas.userId);
+            Users.findById(datas.userId).then(user=>{
+                empty.push(user)
+            })
             // empty.push(users)
         })
-        res.send(users)
+        res.send(empty)
         
     })
          .catch(err => next(err));        
