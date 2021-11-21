@@ -26,8 +26,8 @@ function getAll(req, res, next) {
         {"$addFields":{"user_id":{ "$toString": "$_id" }}},
         {    "$lookup":{
                 "from": "Attendence",
-                "localField": "user_id",
-                "foreignField": "userId",
+                "localField": "userId",
+                "foreignField": "user_id",
                 "as": "finaltest"
             }
         }
