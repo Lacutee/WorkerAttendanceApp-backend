@@ -26,7 +26,7 @@ function getAll(req, res, next) {
         var empty = []
         data.map(datas=>{
             var users = Users.findById(datas.userId);
-            //empty.push(users)
+            // empty.push(users)
         })
         res.send(users)
         
