@@ -29,7 +29,7 @@ function getAll(req, res, next) {
                 as: "adress"
             }
         }
-    ]).pretty()
+    ]).then(data=>{res.send(data)})
          .catch(err => next(err));        
 }
 
