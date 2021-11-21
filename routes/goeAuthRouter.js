@@ -21,15 +21,16 @@ module.exports = router;
 
 function getAll(req, res, next) {
     Attendence.aggregate([
-        { "$addFields": { "userId": { "$toString": "$_id" }}},
-        {    "$lookup":{
-                "from": "User",
-                "localField": "userId",
-                "foreignField": "userId",
-                "as": "output"
-            }
-        }
-    ]).then(data=>{res.send(data)})
+        { "$lookup": {
+          "from": "User",
+          "let": { "userId": "$_id" },
+          "pipeline": [
+            { "$addFields": { "userId": { "$toObjectId": "$userId" }}},
+            { "$match": { "$expr": { "$eq": [ "$userId", "$$userId" ] } } }
+          ],
+          "as": "output"
+        }}
+      ]).then(data=>{res.send(data)})
          .catch(err => next(err));        
 }
 
