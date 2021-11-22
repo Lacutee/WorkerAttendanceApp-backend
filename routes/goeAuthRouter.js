@@ -32,6 +32,9 @@ function getAll(req, res, next) {
                           Date: formatDateTime(user.createdAt, true)})
             }
         )
+        res.send(
+            tmp
+        )
     })
          .catch(err => next(err));        
 }
