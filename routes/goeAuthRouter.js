@@ -21,13 +21,13 @@ module.exports = router;
 
 
 function getAll(req, res, next) {
-    Users.aggregate([
+    Attendence.aggregate([
         { "$addFields": { "userId": { "$toString": "$_id" }}},
         { "$lookup": {
           "from": "User",
           "localField": "userId",
           "foreignField": "userId",
-          "as": "outputss"
+          "as": "outputsss"
         }}
       ]).then(data=>{res.send(data)})
          .catch(err => next(err));        
