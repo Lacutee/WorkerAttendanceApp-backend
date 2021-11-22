@@ -37,7 +37,7 @@ function getAll(req, res, next) {
             }
         )
         res.send(
-            tmp1
+            tmp
         )
     })
          .catch(err => next(err));        
