@@ -14,7 +14,6 @@ router.get('/:id', authorize(), getById);
 router.delete('/delete/:id', authorize, dellById);
 router.post('/add', authorize(Role.Admin), createNew);
 router.put('/update/:id', authorize(), updateId);
-router.put('/forget/:id', authorize(), forgetPass);
 router.put('/office/edit/:id', authorize(), officeEdit);
 router.get('/office/:id', authorize(), officeGet)
 // all authenticated users
@@ -66,44 +65,6 @@ function getAll(req, res, next) {
     
 }
 
-function forgetPass(req, res, next){
-
-    const id = req.params.id;
-    var password = req.body.password;
-    const currentUser = req.user;
-
-    console.log('id forget = '+id)
-    if (req.params.id !== currentUser.sub && currentUser.role !== Role.Admin) {
-        return res.status(401).json({ message: 'Unauthorized' });
-    }
-
-        password = crypto.createHash('sha256').update(password).digest('base64');
-
-
-        User.findByIdAndUpdate(
-            {_id: id},
-            { $set: 
-                {
-                password: password
-                }
-            },
-            {new: true},
-            (err, newPass) =>{
-                if(err){
-                    res.json({
-                        newPass,
-                        success: false,
-                        msg: 'Failed to update Password'
-                    })
-                }else{
-                    res.json({newPass, success: true, msg: 'Password has been updated'})
-                }
-            }
-
-        )
-
-    
-}
 
 function updateId(req, res, next){
     const {id: _id} = req.params;

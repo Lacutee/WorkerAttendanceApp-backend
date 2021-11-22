@@ -11,7 +11,6 @@ router.get('/forget/', question)
 router.put('/update/:id', forgetPass)
 
 function question(req, res, next){
-    console.log('masuk..')
     User.find()
         .then(user => res.json(user))
         .catch(err => err.status(400).json('question not found'))

@@ -7,7 +7,6 @@ const Attendence = require('../models/attendence.model');
 const Users = require('../models/users.model')
 const { AutoEncryptionLoggerLevel } = require('mongodb');
 const formatDateTime = require('../helper-func/date-converter');
-const { User } = require('../role/role');
 
 
 router.get('/', authorize(Role.Admin), getAll); // admin only
@@ -22,17 +21,15 @@ module.exports = router;
 
 
 function getAll(req, res, next) {
-    Attendence.find().then(data=>{
-        var empty = []
-        data.map(datas=>{
-            Users.findById(datas.userId).then(user=>{
-                empty.push(user)
-            })
-            // empty.push(users)
-        })
-        res.send(empty)
-        
-    })
+    Users.aggregate([
+        { "$addFields": { "userId": { "$toString": "$_id" }}},
+        { "$lookup": {
+          "from": "User",
+          "localField": "userId",
+          "foreignField": "userId",
+          "as": "outputss"
+        }}
+      ]).then(data=>{res.send(data)})
          .catch(err => next(err));        
 }
 
