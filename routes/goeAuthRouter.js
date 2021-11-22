@@ -24,9 +24,11 @@ module.exports = router;
 function getAll(req, res, next) {
     Attendence.find().then(users=>{
         var tmp = []
-        const usernya = Users.find()
+        var tmp1 = []
+        Users.find().then(orang=>{tmp1.push(orang)})
         users.map(
             user =>{
+                
                 tmp.push({attendance: user.attendance,
                           location: user.location,
                           distance: user.distance,
@@ -35,7 +37,7 @@ function getAll(req, res, next) {
             }
         )
         res.send(
-            usernya
+            tmp1
         )
     })
          .catch(err => next(err));        
