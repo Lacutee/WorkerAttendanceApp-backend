@@ -7,6 +7,7 @@ const Attendence = require('../models/attendence.model');
 const Users = require('../models/users.model')
 const { AutoEncryptionLoggerLevel } = require('mongodb');
 const formatDateTime = require('../helper-func/date-converter');
+const { User } = require('../role/role');
 
 
 router.get('/', authorize(Role.Admin), getAll); // admin only
@@ -23,6 +24,7 @@ module.exports = router;
 function getAll(req, res, next) {
     Attendence.find().then(users=>{
         var tmp = []
+        const usernya = Users.find()
         users.map(
             user =>{
                 tmp.push({attendance: user.attendance,
@@ -33,7 +35,7 @@ function getAll(req, res, next) {
             }
         )
         res.send(
-            tmp
+            usernya
         )
     })
          .catch(err => next(err));        
