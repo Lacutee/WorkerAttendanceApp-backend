@@ -21,7 +21,18 @@ module.exports = router;
 
 
 function getAll(req, res, next) {
-    Attendence.find().then(data=>{res.send(data)})
+    Attendence.find().then(users=>{
+        var tmp = []
+        users.map(
+            user =>{
+                tmp.push({attendance: user.attendance,
+                          location: user.location,
+                          distance: user.distance,
+                          userId: user.userId,
+                          Date: formatDateTime(user.createdAt, true)})
+            }
+        )
+    })
          .catch(err => next(err));        
 }
 
