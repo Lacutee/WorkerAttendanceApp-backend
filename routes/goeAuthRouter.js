@@ -21,15 +21,7 @@ module.exports = router;
 
 
 function getAll(req, res, next) {
-    Attendence.aggregate([
-        { "$addFields": { "userId": { "$toString": "$_id" }}},
-        { "$lookup": {
-          "from": "User",
-          "localField": "userId",
-          "foreignField": "userId",
-          "as": "outputsss"
-        }}
-      ]).then(data=>{res.send(data)})
+    Attendence.find().then(data=>{res.send(data)})
          .catch(err => next(err));        
 }
 
@@ -95,7 +87,6 @@ function createNew(req, res, next){
             return undefined;
         }
     }
-    console.log(convert_val);
     const attendance = convert_val(attendance_req)
 
     const NewUser = new Attendence({
