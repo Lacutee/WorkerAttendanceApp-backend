@@ -13,19 +13,5 @@ The tech stack were used:
 ## Authentication
 The Authentication proccess using jwt token which the playload contain ``` { sub: 1, role: "Admin/User"} ```  The Token will return as http respond.
 
-### Login (POST)
-- APIUrl:
-  ```https://worker-attendance-app-backend.vercel.app/home/login```
-- Headers
-  <strong>Content-Type:</strong> application/json
-- Body RAW
-  ```
-    {
-    "username":"bruno",
-    "password":"bruno"
-    }
-  ```
-- Response
-  ```
-  eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2MTVlOTZiMWUxOTg1NDAwMTY0ZDVlY2YiLCJyb2xlIjoiQWRtaW4iLCJpYXQiOjE2NDAwNzUxOTh9.lAX9uE4VyhkSX8E57QMXxERMUwVcBy0wKDh_zlyO9ck
-  ```
+### Services
+For the services are explained more on the postman documentation that could be acces at this [link](https://documenter.getpostman.com/view/16160298/UV5aeato)
